@@ -18,12 +18,19 @@ import com.example.composeproject.ui.theme.ComposeProjectTheme
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Button
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,7 +41,41 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Text("hello world")
+            var count by remember {
+                mutableStateOf(0)
+            }
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = count.toString(),
+                    fontSize = 30.sp
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Button(onClick = {
+                        count++
+                    })
+                    {
+                        Text(
+                            text = "Click me"
+                        )
+                    }
+                    Button(onClick = {
+                        count=0
+                    })
+                    {
+                        Text(
+                            text="Reset"
+                        )
+                    }
+                }
+            }
+
                 }
             }
         }
@@ -76,18 +117,26 @@ fun textCompose(name: String) {
 }
 
 @Composable
-fun imageCompose() {
-    Image(
-        painter = painterResource(id = R.drawable.heart),
-        contentDescription = "Image of heart",
-
-    )
+fun imageCompose(color: String) {
+    if (color == "black") {
+        Image(
+            painter = painterResource(id = R.drawable.heart),
+            contentDescription = "Image of heart",
+            modifier = Modifier
+                .background(Color.Black)
+        )
+    } else {
+        Image(
+            painter = painterResource(id = R.drawable.heart),
+            contentDescription = "Image of heart",
+            modifier = Modifier
+                .background(Color.Green)
+        )
+    }
 }
-
-
 
 @Preview(showBackground = true)
 @Composable
 private fun preview() {
-    imageCompose()
+    ComponentActivity()
 }
